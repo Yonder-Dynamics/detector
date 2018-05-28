@@ -23,14 +23,14 @@ for imagePath in glob.glob("test_images/*.JPEG"):
     mean = np.mean(image)
     #image -= int(mean) + 128
 
-    mask = cv2.inRange(image, lower_bright, upper_bright)# / 255
-    cv2.imshow("Mask", mask)
+    mask = cv2.inRange(image, lower_bright, upper_bright) / 255
     char = chr(cv2.waitKey(0) & 0xFF)
     ys = np.expand_dims(np.arange(0, image.shape[0]), 1).dot(np.ones((1, image.shape[1])))
     xs = np.ones((image.shape[0], 1)).dot(np.expand_dims(np.arange(0, image.shape[1]), 0))
     x = (np.sum(np.multiply(ys, mask)) / max(np.count_nonzero(mask), 1))
     y = (np.sum(np.multiply(xs, mask)) / max(np.count_nonzero(mask), 1))
     cv2.circle(image, (int(y), int(x)), 10, (255, 255, 255))
+    print(x, y)
     cv2.imshow("Mask", image)
     if chr(cv2.waitKey(0) & 0xFF) == "q":
         break
